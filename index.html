@@ -1,0 +1,237 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday My Love</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: url('img,vid,aud/image/bdcardbg.webp') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      overflow: hidden;
+    }
+
+    .scene {
+      width: 500px;
+      height: 700px;
+      perspective: 1200px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card, .stationary-card {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-style: preserve-3d;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .stationary-card {
+      z-index: 0;
+      background: lightgoldenrodyellow;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .card {
+      z-index: 1;
+      transition: transform 1.5s ease-in-out;
+      transform-origin: left;
+    }
+
+    .card.open {
+      transform: rotateY(-180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #2b7ff4, #f1f427);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      color: rgb(20, 21, 21);
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card-back {
+      background: lightgoldenrodyellow;
+      transform: rotateY(180deg);
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #333;
+      font-size: 1.1em;
+    }
+
+    .top-image {
+      position: absolute;
+      top: 20px;
+      left: 80px;
+      width: 400px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    /* 🎁 Gift Box Styles */
+    .gift-box {
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+      width: 150px;
+      height: 150px;
+      background: url('img,vid,aud/image/gifthrt.png') no-repeat center center;
+      background-size: cover;
+      cursor: pointer;
+      animation: bounce 2s infinite ease-in-out, glow 1.5s infinite alternate;
+      z-index: 999;
+    }
+
+    .gift-message {
+      position: absolute;
+      bottom: 220px;
+      left: 20px;
+      background: #fff0f6;
+      border: 2px solid #ff66a3;
+      border-radius: 15px;
+      padding: 15px;
+      width: 200px;
+      font-size: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.6s ease;
+      text-align: center;
+      font-weight: bold;
+      color: #c2185b;
+    }
+
+    .gift-box.clicked + .gift-message {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Animations */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #ff1493; }
+      100% { box-shadow: 0 0 25px #ff1493; }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 Background Music -->
+  <audio id="audio" loop>
+    <source src="img,vid,aud/audio/I Love You - Bodyguard 128 Kbps.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Scene with both cards -->
+  <div class="scene" onclick="toggleCard()">
+    
+    <!-- Stationary behind card -->
+    <div class="stationary-card">
+      <video autoplay muted loop>
+        <source src="your-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <img src="img,vid,aud/image/ilu.jpg" alt="love" class="top-image">
+      <p>
+        Happy Birthday, my love! 💕<br />
+        You're my everything. I hope this day is as special as your smile, and as bright as your heart. I love you always! 💖
+      </p>
+    </div>
+
+    <!-- Flipping top card -->
+    <div class="card" id="card">
+      <div class="card-face card-front">
+        Surprise for you babyy💗!! <br> just open it ! 💕 <br>💝 Click to Open 🎀
+      </div>
+      <div class="card-face card-back">
+        <video autoplay muted loop>
+          <source src="img,vid,aud/video/dudububu.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <p>
+          I love you more than words can say!<br />
+          You are my sunshine, my joy, and my everything. 💖<br />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎁 Gift Box and Message -->
+  <div class="gift-box" onclick="showGift(this)"></div>
+  <div class="gift-message">Wish u a many many returns of the Day! 🎉 You're the sweetest gift in my life 💌 I wish all your dreams come true and you become a successful person in life. 💖 Always Be Happy! I LOVE YOU!!</div>
+
+  <script>
+    const audio = document.getElementById("audio");
+
+    // Try to autoplay audio when page loads
+    window.addEventListener("load", () => {
+      audio.play().catch(() => {
+        // If browser blocks it, wait for first user interaction
+        document.body.addEventListener("click", playAudioOnce);
+      });
+    });
+
+    function playAudioOnce() {
+      audio.play();
+      document.body.removeEventListener("click", playAudioOnce);
+    }
+
+    function toggleCard() {
+      const card = document.getElementById('card');
+      card.classList.toggle('open');
+    }
+
+    function showGift(gift) {
+      gift.classList.toggle('clicked');
+    }
+  </script>
+</body>
+</html>
